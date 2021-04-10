@@ -16,11 +16,17 @@ public:
 	// Sets default values for this component's properties
 	UClimbing();
 
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Climbing")
+	bool bDebugInfo;
+
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category="Climbing")
 	float Reach;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Climbing")
 	float LineTraceHeight;
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Climbing")
+	float ClimbingSpeed;
 
 
 	// Called every frame

@@ -10,8 +10,11 @@
 // Sets default values for this component's properties
 UClimbing::UClimbing()
 {
+	bDebugInfo = true;
 	Reach = 50.f;
 	LineTraceHeight = -120.f;
+	ClimbingSpeed = 250.f;
+
 	// Set this component to be initialized when the game starts, and to be ticked every frame.  You can turn these features
 	// off to improve performance if you don't need them.
 	PrimaryComponentTick.bCanEverTick = true;
@@ -25,7 +28,7 @@ void UClimbing::BeginPlay()
 {
 	Super::BeginPlay();
 	SetupInputComponent();
-	UE_LOG(LogTemp, Warning, TEXT("Climbing Component Initiated"));	
+	if(bDebugInfo) UE_LOG(LogTemp, Warning, TEXT("Climbing Component Initiated"));	
 }
 
 /// Look for attached Input Component (only appears at run time)
@@ -48,7 +51,7 @@ void UClimbing::TickComponent(float DeltaTime, ELevelTick TickType, FActorCompon
 {
 	Super::TickComponent(DeltaTime, TickType, ThisTickFunction);
 
-	DrawDebugLine(GetWorld(), GetReachLineStart(), GetReachLineEnd(), FColor(255, 0, 0), false, -1, 0, 15);
+	if (bDebugInfo) DrawDebugLine(GetWorld(), GetReachLineStart(), GetReachLineEnd(), FColor(255, 0, 0), false, -1, 0, 15);
 }
 
 void UClimbing::Grab()
@@ -60,7 +63,7 @@ void UClimbing::Grab()
 
 	if (ActorHit)
 	{
-		GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::Printf(TEXT("Hitting: %s"), *ActorHit->GetName()));
+		if (bDebugInfo) GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Blue, FString::Printf(TEXT("Hitting: %s"), *ActorHit->GetName()));
 		ClimbWall();
 	}
 
@@ -83,7 +86,7 @@ const FHitResult UClimbing::GetFirstObjectInReach()
 }
 void UClimbing::ClimbWall()
 {
-	FVector Force = FVector(0, 0, 250);
+	FVector Force = FVector(0, 0, ClimbingSpeed);
 
 	ACharacter* Character = Cast<ACharacter>(GetOwner());
 	UCharacterMovementComponent* CharacterMovement = Character->GetCharacterMovement();
