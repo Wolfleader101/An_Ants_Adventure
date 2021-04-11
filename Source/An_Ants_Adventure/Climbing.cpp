@@ -11,7 +11,7 @@
 UClimbing::UClimbing()
 {
 	bDebugInfo = true;
-	Reach = 50.f;
+	Reach = 70.f;
 	LineTraceHeight = -120.f;
 	ClimbingSpeed = 250.f;
 
